@@ -1,0 +1,2 @@
+添加了nlpir的自然语言处理工具，可以对文本进行关键词抽取。
+因为fail reason is Other thread is under initialization，无法支持多线程。
