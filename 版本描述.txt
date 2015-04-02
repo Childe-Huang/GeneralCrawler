@@ -1,2 +1,29 @@
+2015-03-22
+关键词抽取：
+1、LocalAnalyzer
 添加了nlpir的自然语言处理工具，可以对文本进行关键词抽取。
-因为fail reason is Other thread is under initialization，无法支持多线程。
+因为fail reason is Other thread is under initialization，无法支持多线程，但因无网络延迟速度快。
+
+2015-03-24
+关键词抽取：
+1、OnlineAnalyzer
+通过线上接口调用nlpir的自然语言处理工具，可以对文本进行关键词抽取，支持多线程。
+2、JiebaAnalyzer
+通过线上接口调用Jieba（开源项目）自然语言处理工具，可以对文本进行关键词抽取，支持多线程。
+
+2015-03-25
+1、对定制器做了优化，使爬虫框架通用型更好
+（1）将customize(String url, Document document)更新为customizeAndGetLinks(FetchQueueItem fetchQueueItem, Document document)
+（2）将抽取url的操作移至customizeAndGetLinks函数中
+（3）新增Links类，新增抽取url的4个功能接口
+2、添加爬虫代理功能
+（1）新增Proxys类，允许爬虫通过代理访问目标网站
+（2）支持代理IP列表的随机切换
+
+2015-04-01
+1、支持cookie，实现模拟登录操作
+2、修复bug
+（1）Java的单例对象不会（及时）被垃圾回收机制回收，需要对资源手动释放
+
+2015-04-03
+1、添加encodingProcess属性，对中文乱码进行处理，增强通用性。encoding取值为0或1，根据需要进行设置。
