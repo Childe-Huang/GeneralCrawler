@@ -23,6 +23,10 @@ public class Proxys extends ArrayList<HttpHost> {
         this.add(proxy);
     }
 
+    /**
+     * 随机从代理列表中获取代理ip
+     * @return
+     */
     public HttpHost getRandomProxy() {
         HttpHost proxy = null;
         random = new Random();

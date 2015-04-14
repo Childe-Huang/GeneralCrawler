@@ -23,7 +23,7 @@ public class WeiboCrawler extends BaseCrawler{
         regexRule.addRule("-.*doc.*");
         this.setRegexRules(regexRule);
         String seedUrl = "http://weibo.cn";//用户名：皂快薯昏
-        this.setCookies("_T_WM=4f8d221c822efc3a4854826c07f3758d; SUB=_2A254HFtVDeTxGeNL6lsR9CnFzzmIHXVb_2UdrDV6PUJbrdANLXXgkW09XopQBxz-KVDvYM6i-gwxAoF7Ow..; gsid_CTandWM=4u53e9d41clZLtAn2Pk5rn9KTff");
+        //this.setCookies("_T_WM=4f8d221c822efc3a4854826c07f3758d; SUB=_2A254HFtVDeTxGeNL6lsR9CnFzzmIHXVb_2UdrDV6PUJbrdANLXXgkW09XopQBxz-KVDvYM6i-gwxAoF7Ow..; gsid_CTandWM=4u53e9d41clZLtAn2Pk5rn9KTff");
         this.addSeed(seedUrl);
         this.setThreads(1);
     }

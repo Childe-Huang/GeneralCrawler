@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by Bin on 2015/3/2.
  * Fetcher 抓取器类
- * Fetcher 抓取器线程类
+ * FetcherThread 抓取器线程类
  */
 public class Fetcher{
     //日志记录

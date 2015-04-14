@@ -27,8 +27,6 @@ public class RegexRule {
     private ArrayList<String> negative = new ArrayList<String>();
 
     /**
-     * 添加一个正则规则 正则规则有两种，正正则和反正则 URL符合正则规则需要满足下面条件： 1.至少能匹配一条正正则 2.不能和任何反正则匹配
-     *
      * @param rule
      * 正则规律，需要按照正反正则的规范输入，在普通正则前加入一个正(负)号来表示正反正则（正正则可不加符号，或者加"+",反正则必须加上'-')
      */
@@ -67,7 +65,7 @@ public class RegexRule {
 
     /**
      * 获取下一个符合正则规则的爬取任务 URL符合正则规则需要满足下面条件： 1.至少能匹配一条正正则 2.不能和任何反正则匹配
-     *
+     * @param str
      * @return 下一个符合正则规则的爬取任务，如果没有符合规则的任务，返回null
      */
     public boolean satisfy(String str) {
@@ -90,6 +88,5 @@ public class RegexRule {
         } else {
             return true;
         }
-
     }
 }

@@ -9,15 +9,15 @@ public class Start {
     public static void main(String[] args) throws Exception {
         EnterpriseCrawler gdagriAppCrawler2 = new AgriculturalSeries.EnterpriseCrawler();
         gdagriAppCrawler2.start(2);
-        //DynamicWorkCrawler dynamicWorkCrawler = new AgriculturalSeries.DynamicWorkCrawler();
-        //dynamicWorkCrawler.start(2);
-        //ProvincialInformationCrawler provincialInformationCrawler = new AgriculturalSeries.ProvincialInformationCrawler();
-        //provincialInformationCrawler.start(2);
-        //PriceQuotationsCrawler priceQuotationsCrawler = new AgriculturalSeries.PriceQuotationsCrawler();
-        //priceQuotationsCrawler.start(2);
-        //ConsumerKnowledgeCrawler consumerKnowledgeCrawler = new AgriculturalSeries.ConsumerKnowledgeCrawler();
-        //consumerKnowledgeCrawler.start(2);
-        //OfficialNoticeCrawler officialNoticeCrawler = new OfficialNoticeCrawler();
-        //officialNoticeCrawler.start(2);
+        DynamicWorkCrawler dynamicWorkCrawler = new AgriculturalSeries.DynamicWorkCrawler();
+        dynamicWorkCrawler.start(2);
+        ProvincialInformationCrawler provincialInformationCrawler = new AgriculturalSeries.ProvincialInformationCrawler();
+        provincialInformationCrawler.start(2);
+        PriceQuotationsCrawler priceQuotationsCrawler = new AgriculturalSeries.PriceQuotationsCrawler();
+        priceQuotationsCrawler.start(2);
+        ConsumerKnowledgeCrawler consumerKnowledgeCrawler = new AgriculturalSeries.ConsumerKnowledgeCrawler();
+        consumerKnowledgeCrawler.start(2);
+        OfficialNoticeCrawler officialNoticeCrawler = new OfficialNoticeCrawler();
+        officialNoticeCrawler.start(2);
     }
 }
