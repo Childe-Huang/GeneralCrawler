@@ -6,14 +6,20 @@ import nlpir.LocalAnalyzer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.jdbc.core.JdbcTemplate;
 import util.CrawlerDataDao;
+import util.JDBCHelper;
 import util.RegexRule;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Bin on 2015/3/27.
  */
 public class CnblogsCrawler extends BaseCrawler {
     RegexRule regexRule;
+    //JdbcTemplate jdbcTemplate = null;
 
     public CnblogsCrawler() {
         regexRule = new RegexRule();
@@ -23,7 +29,7 @@ public class CnblogsCrawler extends BaseCrawler {
         regexRule.addRule("-.*doc.*");
         this.setRegexRules(regexRule);
         String seedUrl;
-        for (int i = 1; i < 2; i++) {
+        for (int i = 1; i < 301; i++) {
             seedUrl = "http://news.cnblogs.com/";
             if (i != 1) {
                 seedUrl = seedUrl + "n/page/" + i;
@@ -32,6 +38,13 @@ public class CnblogsCrawler extends BaseCrawler {
         }
         this.setThreads(10);
         this.setEncodingProcess(0);
+        /*jdbcTemplate = JDBCHelper.createMysqlTemplate("mysql1",
+                "jdbc:mysql://localhost/crawler?useUnicode=true&characterEncoding=utf8",
+                "root", "sa", 10, 40);
+        if (jdbcTemplate == null) {
+            log.info("mysql未开启或JDBCHelper.createMysqlTemplate中参数配置不正确!");
+            return;
+        }*/
     }
 
     /**
@@ -75,6 +88,18 @@ public class CnblogsCrawler extends BaseCrawler {
             gdagriCrawlerData.setMemo("博客园新闻");
             //gdagriCrawlerData.setKeywords(keywords);
             CrawlerDataDao.insertData(gdagriCrawlerData);
+
+            /*java.util.Date date = new java.util.Date();//获得系统时间.
+            String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
+            Timestamp newdate = Timestamp.valueOf(nowTime);//把时间转换
+            if (jdbcTemplate != null) {
+                int updates=jdbcTemplate.update(
+                        "insert into t_crawler_cnblogs (title, extra_imfo, content_html, content_text, comment, memo, oper_time, source_url, keywords) value(?,?,?,?,?,?,?,?,?)",
+                        title, extra_imfo, content_html, content_text, null, "博客园新闻", newdate, fetchQueueItem.getUrl(), null);
+                if(updates==1){
+                    log.info("mysql插入成功");
+                }
+            }*/
         }
         return links;
     }

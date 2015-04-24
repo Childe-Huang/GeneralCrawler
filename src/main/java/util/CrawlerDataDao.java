@@ -28,7 +28,7 @@ public class CrawlerDataDao {
         try {
             Class.forName(CLASS_FOR_NAME);
             conn=(Connection) DriverManager.getConnection(DB_URL, DB_NAME, DB_PASSWORD);
-            String sql="insert into t_crawler_data(title, extra_imfo, content_html, content_text, comment, memo, oper_time, source_url, keywords) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql="insert into t_crawler_cnblogs(title, extra_imfo, content_html, content_text, comment, memo, oper_time, source_url, keywords) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             st=conn.prepareStatement(sql);
             st.setString(1, crawlerData.getTitle());
             st.setString(2, crawlerData.getExtra_imfo());

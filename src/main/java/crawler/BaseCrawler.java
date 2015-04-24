@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import util.Md5Util;
 import util.RegexRule;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class BaseCrawler implements Customization, CustomizationFactory {
     //redis主机地址（默认127.0.0.1）
     private String jedisAddress = "127.0.0.1";
     //redis端口号（默认6379）
-    private String port = "6379";
+    private int port = 6379;
     //爬虫状态
     private boolean status;
     //失败重试次数（默认为3次）
@@ -74,11 +75,11 @@ public class BaseCrawler implements Customization, CustomizationFactory {
     }
 
     public void setJedisAddress(String jedisAddress) {
-        this.jedisAddress = jedisAddress;
+        JedisConfig.setAddress(jedisAddress);;
     }
 
-    public void setPort(String port) {
-        this.port = port;
+    public void setPort(int port) {
+        JedisConfig.setPort(port);
     }
 
     public void setStatus(boolean status) {
@@ -136,14 +137,15 @@ public class BaseCrawler implements Customization, CustomizationFactory {
             for (String catalogSeed : catalogSeeds) {
                 FetchQueueItem fetchQueueItem = new FetchQueueItem(catalogSeed, 1);
                 fetchQueue.add(fetchQueueItem);
-                jedis.set(fetchQueueItem.getUrl(), JedisConfig.CATALOG_SEED);
+                jedis.set(Md5Util.getMd5(fetchQueueItem.getUrl()), JedisConfig.CATALOG_SEED);
             }
         }
         if (!seeds.isEmpty()) {
             for (String seed : seeds) {
                 FetchQueueItem fetchQueueItem = new FetchQueueItem(seed, 1);
-                if (!jedis.exists(fetchQueueItem.getUrl())) {
-                    jedis.set(fetchQueueItem.getUrl(), JedisConfig.COMMON_SEED);
+                String urlMd5 = Md5Util.getMd5(fetchQueueItem.getUrl());
+                if (!jedis.exists(urlMd5)) {
+                    jedis.set(urlMd5, JedisConfig.COMMON_SEED);
                     fetchQueue.add(fetchQueueItem);
                 }
             }

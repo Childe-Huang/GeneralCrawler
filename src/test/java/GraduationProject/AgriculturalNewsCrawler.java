@@ -50,7 +50,7 @@ public class AgriculturalNewsCrawler extends BaseCrawler {
             this.addSeed(seedUrl);
         }
         this.setEncodingProcess(1);
-        this.setThreads(40);
+        this.setThreads(10);
     }
 
     /**
@@ -66,10 +66,10 @@ public class AgriculturalNewsCrawler extends BaseCrawler {
         } else {
             //抽取文章标题
             String title = document.select("body h2").get(0).text();
-            System.out.println(title);
+            //System.out.println(title);
             //抽取文章附加信息，如发布时间和来源等
             String extra_imfo = document.select("p[class=con_info]").text().replaceAll(Jsoup.parse("&nbsp;").text(), " ");
-            System.out.println(extra_imfo);
+            //System.out.println(extra_imfo);
             String releaseTime = extra_imfo.substring(0, 19);
             String releaseSource = extra_imfo.substring(20, extra_imfo.length());
             //抽取文章正文元素
@@ -80,13 +80,18 @@ public class AgriculturalNewsCrawler extends BaseCrawler {
             //数据库信息写入
             if (jdbcTemplate != null) {
                 int updates=jdbcTemplate.update(
-                    "insert into article (UUID, ASOURCE, ADATE, ATITLE, ACONTENT, ATYPE, AOTHER, AIMGURL) value(?,?,?,?,?,?,?,?)",
-                        null, releaseSource, releaseTime, title, content_html, 7, null, null);
+                    "insert into article (UUID, ASOURCE, ADATE, ATITLE, ACONTENT, AURL, ATYPE, AOTHER, AIMGURL) value(?,?,?,?,?,?,?,?,?)",
+                        1001, releaseSource, releaseTime, title, content_html, fetchQueueItem.getUrl(), 7, null, null);
                 if(updates==1){
                     log.info("mysql插入成功");
                 }
             }
         }
         return links;
+    }
+
+    public static void main(String[] args) throws Exception {
+        AgriculturalNewsCrawler agriculturalNewsCrawler = new AgriculturalNewsCrawler();
+        agriculturalNewsCrawler.start(2);
     }
 }

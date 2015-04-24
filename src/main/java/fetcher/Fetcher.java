@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import util.CharacterTool;
+import util.Md5Util;
 import util.RegexRule;
 
 import java.io.IOException;
@@ -166,7 +167,7 @@ public class Fetcher{
                     if (fetchQueueItem == null)
                         return;
                 }
-                if (jedis.get(fetchQueueItem.getUrl()) == JedisConfig.BEEN_GRABBED) {
+                if (jedis.get(Md5Util.getMd5(fetchQueueItem.getUrl())) == JedisConfig.BEEN_GRABBED) {
                     continue;
                 }
                 //通过url访问得到响应，分析响应取得doc和link，link线程入队
@@ -179,7 +180,7 @@ public class Fetcher{
                     HttpConnectionParams.setConnectionTimeout(params, 15000);
                     HttpConnectionParams.setSoTimeout(params, 15000);
                     url = fetchQueueItem.getUrl();
-                    jedis.set(url, JedisConfig.BEEN_GRABBED);
+                    jedis.set(Md5Util.getMd5(url), JedisConfig.BEEN_GRABBED);
                     HttpGet httpget = new HttpGet(url);
                     if (proxys != null) {
                         httpget.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxys.getRandomProxy());
@@ -199,9 +200,10 @@ public class Fetcher{
                         links = customization.customizeAndGetLinks(fetchQueueItem, doc);
                     }
                     for (String href: links) {
+                        String hrefMd5 = Md5Util.getMd5(href);
                         //去重，要验证redis数据库中是否已经存在，无则插redis并入队，有则抛弃
-                        if (!jedis.exists(href)) {
-                            jedis.set(href, JedisConfig.UN_GRABBED);
+                        if (!jedis.exists(hrefMd5)) {
+                            jedis.set(hrefMd5, JedisConfig.UN_GRABBED);
                             tempQueue.add(new FetchQueueItem(href, depth));
                         }
                     }
