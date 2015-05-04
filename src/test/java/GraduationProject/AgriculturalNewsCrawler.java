@@ -66,10 +66,10 @@ public class AgriculturalNewsCrawler extends BaseCrawler {
         } else {
             //抽取文章标题
             String title = document.select("body h2").get(0).text();
-            //System.out.println(title);
+            System.out.println(title);
             //抽取文章附加信息，如发布时间和来源等
             String extra_imfo = document.select("p[class=con_info]").text().replaceAll(Jsoup.parse("&nbsp;").text(), " ");
-            //System.out.println(extra_imfo);
+            System.out.println(extra_imfo);
             String releaseTime = extra_imfo.substring(0, 19);
             String releaseSource = extra_imfo.substring(20, extra_imfo.length());
             //抽取文章正文元素
